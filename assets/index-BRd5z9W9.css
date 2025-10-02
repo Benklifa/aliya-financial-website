@@ -10,3 +10,16 @@ ul li span.text-foreground {
 .bg-white .text-foreground {
   color: #000000 !important;
 }
+
+/* Page headers - white text on dark backgrounds */
+.text-xl.leading-relaxed,
+.text-xl.text-muted-foreground,
+p.text-xl {
+  color: #FFFFFF !important;
+}
+
+/* Ensure all descriptive headers on pages are white */
+.py-16 .text-xl,
+section .text-xl {
+  color: #FFFFFF !important;
+}
