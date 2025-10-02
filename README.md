@@ -1,5 +1,7 @@
 # Aliya Financial Website
 
+![Aliya Logo](aliya-logo.png)
+
 This is the website for **Aliya Financial** - a cross-border financial planning service for successful Aliyah.
 
 ## About
