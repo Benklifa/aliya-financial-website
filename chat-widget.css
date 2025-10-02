@@ -1,0 +1,16 @@
+/* Aliya Buddy Chat Window - make it 50% taller and wider */
+iframe[src*="manus"],
+iframe[src*="chat"] {
+  width: 600px !important;   /* wider */
+  height: 750px !important;  /* taller */
+  max-width: 90vw !important;  /* responsive on smaller screens */
+  max-height: 90vh !important;
+}
+
+@media (max-width: 768px) {
+  iframe[src*="manus"],
+  iframe[src*="chat"] {
+    width: 90vw !important;
+    height: 70vh !important;
+  }
+}
