@@ -1,10 +1,7 @@
-/* Resize the Manus chat window iframe */
-iframe[src*="manus"] {
+/* Enlarge the chat window container */
+.fixed.bottom-16.right-4.w-80.h-96 {
   width: 600px !important;   /* wider */
   height: 750px !important;  /* taller */
   max-width: 90vw !important;
   max-height: 90vh !important;
-  bottom: 20px !important;   /* adjust position if needed */
-  right: 20px !important;
-  position: fixed !important; /* ensure it stays in place */
 }
