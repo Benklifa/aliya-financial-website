@@ -23,3 +23,39 @@ p.text-xl {
 section .text-xl {
   color: #FFFFFF !important;
 }
+
+/* Aliya Buddy Chat Widget - 150% size */
+/* Target common chat widget containers and iframes */
+[class*="chat-widget"],
+[class*="chat-container"],
+[id*="chat-widget"],
+[id*="chat-container"],
+iframe[src*="chat"],
+.chat-window {
+  width: 150% !important;
+  height: 150% !important;
+  max-width: 600px !important;
+  max-height: 900px !important;
+}
+
+/* Responsive sizing for mobile */
+@media (max-width: 768px) {
+  [class*="chat-widget"],
+  [class*="chat-container"],
+  [id*="chat-widget"],
+  [id*="chat-container"],
+  iframe[src*="chat"],
+  .chat-window {
+    width: 90vw !important;
+    height: 70vh !important;
+    max-width: 90vw !important;
+    max-height: 70vh !important;
+  }
+}
+
+/* Scale the chat button if needed */
+button[alt*="Chat"],
+button img[alt*="Chat"] {
+  transform: scale(1.5) !important;
+  transform-origin: bottom right !important;
+}
