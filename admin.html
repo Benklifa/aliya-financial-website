@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management - Aliya Financial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .event-list {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .event-item {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .event-item:last-child {
+            border-bottom: none;
+        }
+        .event-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+        .event-detail {
+            margin: 5px 0;
+            color: #4b5563;
+        }
+        .event-detail strong {
+            color: #1f2937;
+        }
+        .location-box {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .public-location {
+            color: #059669;
+            font-weight: 500;
+        }
+        .private-location {
+            color: #dc2626;
+            font-weight: 500;
+            white-space: pre-line;
+        }
+        .instructions {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .instructions h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .instructions p {
+            color: #1e40af;
+            line-height: 1.6;
+        }
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .button {
+            background: #1e3a8a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #1e40af;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-open {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-closed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Event Management System</h1>
+        <p class="subtitle">Aliya Financial - Admin Interface</p>
+
+        <div class="instructions">
+            <h3>📋 How to Manage Events</h3>
+            <p>
+                Events are stored in <code>data/events.json</code>. To add or edit events:
+                <br>1. Edit the JSON file in your repository
+                <br>2. Commit and push to GitHub
+                <br>3. Vercel will automatically deploy the changes
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>📅 Current Events</h2>
+            <div id="events-container">
+                <p>Loading events...</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔌 API Endpoints</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #059669; margin-bottom: 10px;">Public API (Website)</h3>
+                <div class="code-block">GET /api/events</div>
+                <button class="button" onclick="testPublicAPI()">Test Public API</button>
+            </div>
+
+            <div>
+                <h3 style="color: #dc2626; margin-bottom: 10px;">Private API (Email Confirmations)</h3>
+                <div class="code-block">GET /api/event-details?eventId=event-001
+Authorization: Bearer aliya-financial-secret-2025</div>
+                <button class="button" onclick="testPrivateAPI()">Test Private API</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📖 Documentation</h2>
+            <p style="color: #4b5563; line-height: 1.6;">
+                For detailed API documentation, security settings, and email template examples, 
+                see <strong>EVENT_API_DOCUMENTATION.md</strong> in the repository.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Load and display events
+        async function loadEvents() {
+            try {
+                const response = await fetch('/api/events');
+                const data = await response.json();
+                
+                if (data.success && data.events.length > 0) {
+                    displayEvents(data.events);
+                } else {
+                    document.getElementById('events-container').innerHTML = 
+                        '<p style="color: #6b7280;">No events found.</p>';
+                }
+            } catch (error) {
+                document.getElementById('events-container').innerHTML = 
+                    '<p style="color: #dc2626;">Error loading events. Make sure the API is deployed.</p>';
+            }
+        }
+
+        function displayEvents(events) {
+            const container = document.getElementById('events-container');
+            container.innerHTML = '<div class="event-list">' + events.map(event => `
+                <div class="event-item">
+                    <div class="event-title">${event.title}</div>
+                    <div class="event-detail"><strong>ID:</strong> ${event.id}</div>
+                    <div class="event-detail"><strong>Date:</strong> ${event.date} at ${event.time}</div>
+                    <div class="event-detail"><strong>Capacity:</strong> ${event.capacity} people</div>
+                    <div class="event-detail">
+                        <strong>Status:</strong> 
+                        <span class="status-badge ${event.registrationOpen ? 'status-open' : 'status-closed'}">
+                            ${event.registrationOpen ? 'Registration Open' : 'Registration Closed'}
+                        </span>
+                    </div>
+                    <div class="location-box">
+                        <div style="margin-bottom: 10px;">
+                            <strong>🌍 Public Location (Website):</strong><br>
+                            <span class="public-location">${event.location}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #6b7280; font-style: italic;">
+                            Private location (full address) is only accessible via authenticated API for email confirmations.
+                        </div>
+                    </div>
+                </div>
+            `).join('') + '</div>';
+        }
+
+        async function testPublicAPI() {
+            try {
+                const response = await fetch('/api/events');
+                const data = await response.json();
+                alert('✅ Public API Test Successful!\n\n' + JSON.stringify(data, null, 2));
+            } catch (error) {
+                alert('❌ Public API Test Failed!\n\n' + error.message);
+            }
+        }
+
+        async function testPrivateAPI() {
+            try {
+                const response = await fetch('/api/event-details?eventId=event-001', {
+                    headers: {
+                        'Authorization': 'Bearer aliya-financial-secret-2025'
+                    }
+                });
+                const data = await response.json();
+                alert('✅ Private API Test Successful!\n\nFull Address:\n' + data.event.privateLocation);
+            } catch (error) {
+                alert('❌ Private API Test Failed!\n\n' + error.message);
+            }
+        }
+
+        // Load events on page load
+        loadEvents();
+    </script>
+</body>
+</html>
