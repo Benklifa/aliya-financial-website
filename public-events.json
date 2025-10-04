@@ -8,6 +8,7 @@
       "time": "18:00",
       "description": "Join us for an in-depth workshop on financial planning for your Aliyah journey. Learn about cross-border tax strategies, currency management, and retirement planning.",
       "location": "Jerusalem (Full address provided upon registration)",
+      "locationHTML": "Jerusalem (Full address provided upon registration)<br><span style=\"color: white;\">49 Tchernichovsky Street, Jerusalem<br>Take elevator to 4th floor Penthouse</span>",
       "capacity": 20,
       "registrationOpen": true
     }
