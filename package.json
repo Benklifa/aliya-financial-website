@@ -6,6 +6,8 @@
     "dev": "vercel dev",
     "build": "echo 'Static site - no build needed'"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
+    "dotenv": "^17.2.3"
+  }
 }
