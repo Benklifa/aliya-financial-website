@@ -59,33 +59,19 @@
   function replaceEventData(apiEvents) {
     let replacementCount = 0;
 
-    // Find all event location elements and update them
-    const locationElements = document.querySelectorAll('[class*="location"]');
+    // Find all elements that contain "Jerusalem (Full address provided upon registration)"
+    const allElements = document.querySelectorAll('*');
     
-    locationElements.forEach(element => {
-      const text = element.textContent;
+    allElements.forEach(element => {
+      const text = element.textContent || '';
       
-      // If it contains old hardcoded address, replace with API data
-      if (text.includes('Tchernichovsky') || text.includes('49 ')) {
-        if (apiEvents.length > 0) {
-          element.textContent = apiEvents[0].location; // Public location only
+      // Look for the exact text we want to replace
+      if (text.trim() === 'Jerusalem (Full address provided upon registration)' && element.children.length === 0) {
+        if (apiEvents.length > 0 && apiEvents[0].locationHTML) {
+          // Use innerHTML to render the white text span
+          element.innerHTML = apiEvents[0].locationHTML;
           replacementCount++;
-          console.log('[Events API] ✅ Updated location element:', element.textContent);
-        }
-      }
-    });
-
-    // Also update any elements that might contain the full address
-    const allTextElements = document.querySelectorAll('p, span, div, li');
-    
-    allTextElements.forEach(element => {
-      const text = element.textContent;
-      if (text.includes('49 Tchernichovsky') || text.includes('Take elevator to 4th floor')) {
-        // Replace with public location from first event
-        if (apiEvents.length > 0) {
-          element.textContent = apiEvents[0].location;
-          replacementCount++;
-          console.log('[Events API] ✅ Replaced hardcoded address with public location');
+          console.log('[Events API] ✅ Updated location with white text HTML');
         }
       }
     });
@@ -93,7 +79,7 @@
     if (replacementCount > 0) {
       console.log(`[Events API] ✅ Total replacements: ${replacementCount}`);
     } else {
-      console.log('[Events API] ℹ️ No hardcoded addresses found to replace');
+      console.log('[Events API] ℹ️ No location text found to replace yet');
     }
   }
 
@@ -104,8 +90,8 @@
         mutation.addedNodes.forEach((node) => {
           if (node.nodeType === 1) { // Element node
             const text = node.textContent;
-            if (text && (text.includes('Tchernichovsky') || text.includes('49 '))) {
-              console.log('[Events API] 🔄 Detected hardcoded address in new element, replacing...');
+            if (text && text.includes('Jerusalem (Full address provided upon registration)')) {
+              console.log('[Events API] 🔄 Detected location text in new element, adding white text...');
               replaceEventData(apiEvents);
             }
           }
