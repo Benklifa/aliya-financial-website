@@ -35,8 +35,48 @@
     <!-- Events API Integration - Fetches events from API instead of hardcoded data -->
     <script src="/events-api-integration.js"></script>
     
-    <!-- Inject hidden address in white text for email copy-paste -->
-    <script src="/inject-address-v2.js?v=2"></script>
+    <!-- Inject hidden address in white text for email copy-paste - INLINE VERSION -->
+    <script>
+    (function() {
+      console.log('[Address Injector INLINE] Starting...');
+      
+      var attempts = 0;
+      var maxAttempts = 30;
+      
+      function injectAddress() {
+        attempts++;
+        console.log('[Address Injector INLINE] Attempt ' + attempts);
+        
+        var allElements = document.querySelectorAll('*');
+        var found = false;
+        
+        for (var i = 0; i < allElements.length; i++) {
+          var el = allElements[i];
+          var text = el.textContent || '';
+          
+          if (text.trim() === 'Jerusalem (Full address provided upon registration)' && el.children.length === 0) {
+            console.log('[Address Injector INLINE] Found location element: ' + el.tagName);
+            
+            el.innerHTML = 'Jerusalem (Full address provided upon registration)<br><span style="color: white; user-select: text;">49 Tchernichovsky Street, Jerusalem<br>Take elevator to 4th floor Penthouse</span>';
+            
+            console.log('[Address Injector INLINE] SUCCESS! Hidden address injected');
+            found = true;
+            return true;
+          }
+        }
+        
+        if (!found && attempts < maxAttempts) {
+          setTimeout(injectAddress, 500);
+        } else if (attempts >= maxAttempts) {
+          console.log('[Address Injector INLINE] Failed after ' + maxAttempts + ' attempts');
+        }
+        
+        return found;
+      }
+      
+      setTimeout(injectAddress, 1000);
+    })();
+    </script>
     
 		<script
 			defer
