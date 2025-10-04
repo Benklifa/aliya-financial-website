@@ -1,55 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aliya Financial - Cross-Border Financial Planning for Successful Aliyah</title>
-    <meta name="description" content="Expert cross-border financial planning for Americans making Aliyah. Comprehensive strategies for U.S.-Israel transitions, retirement planning, and wealth management." />
-    <meta name="author" content="Aliya Financial" />
-    <meta name="keywords" content="Aliyah financial planning, cross-border wealth management, U.S. Israel retirement, tax optimization, currency hedging" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="israelpuzzlelogo-blue.png" />
-    <link rel="icon" type="image/png" href="israelpuzzlelogo-blue.png" />
-
-    <meta property="og:title" content="Aliya Financial - Cross-Border Financial Planning for Successful Aliyah" />
-    <meta property="og:description" content="Expert cross-border financial planning for Americans making Aliyah. Comprehensive strategies for U.S.-Israel transitions, retirement planning, and wealth management." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-    <script type="module" crossorigin src="assets/index-zuKBu90E.js"></script>
-    <link rel="stylesheet" crossorigin href="assets/index-BRd5z9W9.css">
-    <link rel="stylesheet" href="chat-widget.css">
-
-  </head>
-
-  <body>
-    <div id="root"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aliya Financial - Events API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 { color: #1e3a8a; }
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aliya Financial Events API</h1>
+    <p>This is the public events data endpoint for Aliya Financial.</p>
     
-    <!-- Events API Integration - Fetches events from API instead of hardcoded data -->
-    <script src="/events-api-integration.js"></script>
+    <h2>Public Events Endpoint</h2>
+    <p><strong>URL:</strong> <code>https://benklifa.github.io/aliya-financial-website/public-events.json</code></p>
     
-		<script
-			defer
-			data-domain="manus.space"
-			src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"
-		></script>
-		<script>
-			window.plausible =
-				window.plausible ||
-				function () {
-					(window.plausible.q = window.plausible.q || []).push(arguments);
-				};
-			plausible('custom-pageview', {
-			  props: {
-    			domain: window.location.host
-  			}
-			})
-		</script></body>
+    <p>This endpoint returns event data with <strong>public locations only</strong> (city name + registration note).</p>
+    
+    <h3>Example Response:</h3>
+    <pre id="events-data">Loading...</pre>
+    
+    <script>
+        fetch('public-events.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('events-data').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(err => {
+                document.getElementById('events-data').textContent = 'Error loading events: ' + err.message;
+            });
+    </script>
+</body>
 </html>
