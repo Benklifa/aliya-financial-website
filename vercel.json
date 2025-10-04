@@ -5,6 +5,14 @@
       "dest": "/$1"
     },
     {
+      "src": "/inject-address-v2\\.js",
+      "dest": "/inject-address-v2.js"
+    },
+    {
+      "src": "/events-api-integration\\.js",
+      "dest": "/events-api-integration.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
@@ -20,6 +28,15 @@
         {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.js)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
         }
       ]
     },
