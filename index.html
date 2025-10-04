@@ -35,6 +35,40 @@
     <!-- Events API Integration - Fetches events from API instead of hardcoded data -->
     <script src="/events-api-integration.js"></script>
     
+    <!-- Inject hidden address in white text for email copy-paste -->
+    <script>
+      // Wait for page to load, then add hidden address
+      setTimeout(function() {
+        var attempts = 0;
+        var maxAttempts = 20;
+        
+        var addHiddenAddress = setInterval(function() {
+          attempts++;
+          
+          // Find the location text element
+          var locationElements = document.querySelectorAll('*');
+          var found = false;
+          
+          for (var i = 0; i < locationElements.length; i++) {
+            var el = locationElements[i];
+            if (el.textContent && el.textContent.trim() === 'Jerusalem (Full address provided upon registration)' && el.children.length === 0) {
+              // Add the hidden address
+              el.innerHTML = 'Jerusalem (Full address provided upon registration)<br><span style="color: white;">49 Tchernichovsky Street, Jerusalem<br>Take elevator to 4th floor Penthouse</span>';
+              console.log('[Hidden Address] ✅ Added hidden address to event location');
+              found = true;
+              clearInterval(addHiddenAddress);
+              break;
+            }
+          }
+          
+          if (attempts >= maxAttempts) {
+            console.log('[Hidden Address] ⚠️ Could not find location element after', maxAttempts, 'attempts');
+            clearInterval(addHiddenAddress);
+          }
+        }, 500);
+      }, 1000);
+    </script>
+    
 		<script
 			defer
 			data-domain="manus.space"
