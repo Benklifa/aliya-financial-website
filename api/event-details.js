@@ -2,14 +2,14 @@
 // Returns event with PRIVATE location (for confirmation emails)
 // Requires authentication token for security
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 // Simple token-based authentication
 // In production, use environment variables for the token
 const AUTH_TOKEN = process.env.EVENT_API_TOKEN || 'aliya-financial-secret-2025';
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -58,6 +58,14 @@ module.exports = (req, res) => {
       });
     }
 
+    // Validate that privateLocation exists
+    if (!event.privateLocation) {
+      return res.status(500).json({
+        success: false,
+        error: 'Event is missing private location - cannot send confirmation email'
+      });
+    }
+
     // Return full event details including PRIVATE location
     res.status(200).json({
       success: true,
@@ -80,4 +88,4 @@ module.exports = (req, res) => {
       error: 'Failed to load event details'
     });
   }
-};
+}

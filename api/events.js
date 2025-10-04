@@ -1,10 +1,10 @@
 // Vercel Serverless Function - Public Events API
 // Returns events with PUBLIC location only (for website display)
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -48,4 +48,4 @@ module.exports = (req, res) => {
       error: 'Failed to load events'
     });
   }
-};
+}
