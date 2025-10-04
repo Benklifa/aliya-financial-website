@@ -2,14 +2,14 @@
 // Returns event with PRIVATE location (for confirmation emails)
 // Requires authentication token for security
 
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 // Simple token-based authentication
 // In production, use environment variables for the token
 const AUTH_TOKEN = process.env.EVENT_API_TOKEN || 'aliya-financial-secret-2025';
 
-export default function handler(req, res) {
+module.exports = (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -85,7 +85,8 @@ export default function handler(req, res) {
     console.error('Error reading event details:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to load event details'
+      error: 'Failed to load event details',
+      details: error.message
     });
   }
-}
+};
