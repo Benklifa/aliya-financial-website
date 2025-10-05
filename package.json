@@ -1,0 +1,9 @@
+{
+  "name": "aliya-financial-website",
+  "version": "1.0.0",
+  "description": "Aliya Financial website with event registration",
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}
