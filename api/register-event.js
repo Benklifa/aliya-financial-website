@@ -136,12 +136,100 @@ export default async function handler(req, res) {
       </html>
     `;
 
-    // Send confirmation email
+    // Send confirmation email to registrant
     await transporter.sendMail({
       from: '"Aliya Financial" <michael@aliyafinancial.com>',
       to: email,
       subject: `Registration Confirmed: ${eventTitle}`,
       html: emailHTML
+    });
+
+    // Send notification email to michael@aliyafinancial.com with registrant info
+    const notificationHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background-color: #059669; color: white; padding: 20px; text-align: center; }
+          .content { background-color: #f9fafb; padding: 30px; }
+          .registrant-details { background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+          .detail-row { margin: 10px 0; padding: 10px; border-bottom: 1px solid #e5e7eb; }
+          .label { font-weight: bold; color: #1e3a8a; display: inline-block; width: 120px; }
+          .value { color: #374151; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>🎉 New Event Registration</h1>
+          </div>
+          
+          <div class="content">
+            <h2 style="color: #1e3a8a;">New Registrant for ${eventTitle}</h2>
+            
+            <div class="registrant-details">
+              <h3 style="margin-top: 0; color: #059669;">Registrant Information</h3>
+              
+              <div class="detail-row">
+                <span class="label">Name:</span>
+                <span class="value">${name}</span>
+              </div>
+              
+              <div class="detail-row">
+                <span class="label">Email:</span>
+                <span class="value"><a href="mailto:${email}">${email}</a></span>
+              </div>
+              
+              <div class="detail-row">
+                <span class="label">Phone:</span>
+                <span class="value"><a href="tel:${phone}">${phone}</a></span>
+              </div>
+              
+              <div class="detail-row">
+                <span class="label">Event:</span>
+                <span class="value">${eventTitle}</span>
+              </div>
+              
+              <div class="detail-row">
+                <span class="label">Date:</span>
+                <span class="value">${formattedDate}</span>
+              </div>
+              
+              <div class="detail-row">
+                <span class="label">Time:</span>
+                <span class="value">${formattedTime}</span>
+              </div>
+              
+              <div class="detail-row">
+                <span class="label">Location:</span>
+                <span class="value">${exactAddress}</span>
+              </div>
+              
+              <div class="detail-row" style="border-bottom: none;">
+                <span class="label">Registered:</span>
+                <span class="value">${new Date().toLocaleString('en-US', { 
+                  dateStyle: 'full', 
+                  timeStyle: 'short' 
+                })}</span>
+              </div>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px;">
+              This is an automated notification. The registrant has been sent a confirmation email with the event address.
+            </p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    await transporter.sendMail({
+      from: '"Aliya Financial Registration System" <michael@aliyafinancial.com>',
+      to: 'michael@aliyafinancial.com',
+      subject: `New Registration: ${name} - ${eventTitle}`,
+      html: notificationHTML
     });
 
     // Log the registration
