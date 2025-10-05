@@ -103,10 +103,6 @@ export default async function handler(req, res) {
                 <span class="label">Time:</span> ${formattedTime}
               </div>
               
-              <div class="detail-row">
-                <span class="label">Capacity:</span> ${eventDetails.capacity} attendees
-              </div>
-              
               <div class="address-box">
                 <div class="detail-row">
                   <span class="label">📍 Event Address:</span><br>
