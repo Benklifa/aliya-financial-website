@@ -66,7 +66,7 @@ export default async function handler(req, res) {
         description: description,
         date: date,
         time: time,
-        location: `${city} (Full address provided upon registration)`,
+        location: city,
         registrationOpen: true
       });
 
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
         description: description,
         date: date,
         time: time,
-        location: `${city} (Full address provided upon registration)`,
+        location: city,
         exactAddress: exactAddress,
         registrationOpen: true
       });
@@ -140,17 +140,20 @@ function parseDate(dateStr) {
 function parseTime(timeStr) {
   if (!timeStr) return '';
   
+  // Convert to string and trim
+  timeStr = String(timeStr).trim();
+  
   // If already in HH:MM format, return as-is
   if (/^\d{1,2}:\d{2}$/.test(timeStr)) {
     const [hours, minutes] = timeStr.split(':');
     return `${String(hours).padStart(2, '0')}:${minutes}`;
   }
   
-  // Try to parse time with AM/PM
-  const match = timeStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)/i);
+  // Try to parse time with AM/PM (handles both "8:00 PM" and "8:00:00 PM")
+  const match = timeStr.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(am|pm)/i);
   if (match) {
     let hours = parseInt(match[1]);
-    const minutes = match[2] || '00';
+    const minutes = match[2];
     const period = match[3].toLowerCase();
     
     if (period === 'pm' && hours !== 12) {
