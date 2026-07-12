@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       service: 'gmail',
       auth: {
         user: 'michael@aliyafinancial.com',
-        pass: 'yvwm jimu fsoo xwsv'
+        pass: process.env.GMAIL_APP_PASSWORD
       }
     });
 
